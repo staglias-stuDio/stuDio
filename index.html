@@ -4,10 +4,277 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>stuDIo — Industrial Designer</title>
+  <!-- favicons: SVG + PNG fallbacks + .ico (multi-size) -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="shortcut icon" href="assets/favicon.ico" />
   <meta name="description" content="stuDIo — Industrial designer focused on creative projects" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --panel:#0f1114;
+      --muted:#9aa3ad;
+      --accent:#9cadb3;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --max-width:1100px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;background:linear-gradient(180deg,#070708 0%, #0b0b0d 100%);color:#e6eef2;margin:0}
+    a{color:var(--accent);text-decoration:none}
+    header{position:fixed;left:0;right:0;top:16px;display:flex;justify-content:center;pointer-events:none}
+    .nav-wrap{width:100%;max-width:var(--max-width);padding:8px 20px;pointer-events:auto;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{background:linear-gradient(135deg,var(--accent),#7b61ff);padding:8px 12px;border-radius:10px;font-weight:700;color:#03060a}
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{font-weight:600;color:#cfe9f6;opacity:0.9}
+    .hero{min-height:92vh;display:flex;align-items:center;justify-content:center;padding:120px 20px 60px}
+    .container{max-width:var(--max-width);margin:0 auto;width:100%}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:center}
+    .intro h1{font-size:44px;line-height:1;margin:0 0 12px}
+    .intro p.lead{color:var(--muted);margin:0 0 22px}
+    .cta{display:inline-flex;gap:10px}
+    .btn{background:var(--accent);color:#041018;padding:10px 16px;border-radius:12px;font-weight:700;border:0;cursor:pointer}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:12px;color:var(--muted)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:22px;border-radius:16px;box-shadow:0 6px 20px rgba(2,6,10,0.6)}
+    .avatar{height:120px;width:120px;border-radius:12px;background:linear-gradient(135deg,#111318,#0b0b0d);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700}
+
+    section{padding:80px 20px}
+    .section-title{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+    .section-title h2{margin:0;font-size:22px}
+    .muted{color:var(--muted)}
+    .about{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start}
+    .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+    .project{min-height:180px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .25s,box-shadow .25s}
+    .project:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,10,0.6)}
+    .placeholder{height:110px;border-radius:8px;background:repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 6px, rgba(255,255,255,0.01) 6px 12px);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+    .project h3{margin:10px 0 6px;font-size:16px}
+    .project p{margin:0;color:var(--muted);font-size:14px}
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
+    form{display:flex;flex-direction:column;gap:12px}
+    input,textarea{background:var(--panel);border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:10px;color:#e6eef2;font-size:14px}
+    textarea{min-height:140px}
+    footer{padding:40px 20px;text-align:center;color:var(--muted)}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}.about{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}}
+    .meta{font-size:13px;color:var(--muted)}
+    .link-row{display:flex;gap:12px;align-items:center}
+  </style>
 </head>
 <body>
-  <h1>Welcome to stuDIo</h1>
-  <p>This is a placeholder site. Replace images in assets/ and update portfolio.</p>
+  <header>
+    <div class="nav-wrap">
+      <div class="brand">
+        <!-- Reemplazado: mostrar logo en vez de texto. Cambia src si tienes un archivo de logo distinto -->
+          <div class="stuDIo-01" style="padding:0">
+            <!-- Usamos el SVG de logo (mejor para escalabilidad). Cambia el src si subes otro logo -->
+            <img src="assets/logo.png" alt="stuDIo logo" style="height:36px;display:block;object-fit:cover;border-radius:8px" />
+          </div>
+        <div class="meta">Industrial Designer</div>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="grid">
+          <div class="intro">
+            <h1>stuDIo — Creative Industrial Design</h1>
+            <p class="lead">Industrial designer focused on creative projects. I turn ideas into tangible objects with aesthetic and functional intention.</p>
+            <div class="cta">
+              <button class="btn" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">View Portfolio</button>
+              <button class="secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;gap:14px;align-items:center">
+              <div class="avatar" style="padding:0;overflow:hidden">
+                <img src="assets/avatar.png" alt="ST avatar" style="width:120px;height:120px;object-fit:cover;border-radius:12px;display:block" />
+              </div>
+              <div>
+                <div style="font-weight:700">
+                  <img src="assets/logo.png" alt="stuDIo logo" style="height:26px;display:block;object-fit:contain" />
+                </div>
+                <div class="muted">Industrial Designer — Creative Projects</div>
+              </div>
+            </div>
+            <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:16px 0;border-radius:2px">
+            <div class="meta">Availability: Freelance · Location: (your city)</div>
+            <div style="margin-top:14px" class="link-row">
+              <a href="#" aria-label="Instagram">Instagram</a>
+              <a href="#" aria-label="Behance">Behance</a>
+              <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-title"><h2>About</h2><div class="muted">My approach and process</div></div>
+        <div class="about">
+          <div>
+            <p class="muted">I am an industrial designer interested in materials, manufacturing processes, and user-centered design. I work on projects ranging from functional objects to installations and small-scale prototypes.</p>
+            <ul style="color:var(--muted);">
+              <li>Concept development and product design</li>
+              <li>Prototyping and 3D modeling</li>
+              <li>Production guidance and collaboration with workshops</li>
+            </ul>
+            <p class="muted">Tools: CAD, modeling, rapid prototyping, mockups, and rendering.</p>
+          </div>
+          <div>
+            <div class="card" style="display:flex;flex-direction:column;gap:12px">
+              <div style="font-weight:700">Services</div>
+              <div class="muted">Design consulting · Product development · Prototyping</div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn" onclick="location.href='#contact'">Hire Me</button>
+                <button class="secondary">Download CV</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <div class="section-title"><h2>Portfolio</h2><div class="muted">Spaces ready for your projects</div></div>
+        <div class="portfolio-grid">
+          <!-- Project 1 -->
+          <article class="project">
+            <div style="height:110px;border-radius:8px;overflow:hidden">
+              <img src="assets/project1.jpg" alt="Project 1" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" />
+            </div>
+            <div>
+              <h3>Project Title</h3>
+              <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
+              <a class="btn" href="#">View Details</a>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project">
+            <div class="placeholder">Project image (drag & replace)</div>
+            <div>
+              <h3>Project Title</h3>
+              <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
+              <a class="btn" href="#">View Details</a>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project">
+            <div class="placeholder">Project image (drag & replace)</div>
+            <div>
+              <h3>Project Title</h3>
+              <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
+              <a class="btn" href="#">View Details</a>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="project">
+            <div class="placeholder">Project image (drag & replace)</div>
+            <div>
+              <h3>Project Title</h3>
+              <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
+              <a class="btn" href="#">View Details</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-title"><h2>Contact</h2><div class="muted">Let's talk about your next project</div></div>
+        <div class="contact-grid">
+          <div>
+            <form onsubmit="handleContact(event)">
+              <input id="name" placeholder="Your Name" required />
+              <input id="email" placeholder="Your Email" type="email" required />
+              <input id="subject" placeholder="Subject" />
+              <textarea id="message" placeholder="Message" required></textarea>
+              <div style="display:flex;gap:10px">
+                <button class="btn" type="submit">Send Message</button>
+                <button class="secondary" type="button" onclick="clearForm()">Clear</button>
+              </div>
+            </form>
+            <p class="muted" style="margin-top:12px">Or write directly to: <a id="mailto" href="mailto:hola@studio.com?subject=Contact%20from%20stuDIo">hola@studio.com</a></p>
+          </div>
+
+          <div>
+            <div class="card">
+              <div style="font-weight:700">Information</div>
+              <div class="muted" style="margin-top:6px">Available for collaborations and commissions. Usually respond within 48 hours.</div>
+              <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:12px 0;border-radius:2px">
+              <div class="muted">Phone (optional): +56 9 XXX XXXX</div>
+              <div style="margin-top:10px" class="link-row">
+                <a href="#">Instagram</a>
+                <a href="#">Behance</a>
+                <a href="#">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container" style="max-width:900px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>© <strong>stuDIo</strong> · Industrial Design</div>
+        <div class="muted">Made by Sebastián · <span id="year"></span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function handleContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim() || 'Contact from stuDIo';
+      const message = document.getElementById('message').value.trim();
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      const mailto = `mailto:hola@studio.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      window.location.href = mailto;
+    }
+    function clearForm(){
+      document.getElementById('name').value='';
+      document.getElementById('email').value='';
+      document.getElementById('subject').value='';
+      document.getElementById('message').value='';
+    }
+  </script>
 </body>
 </html>
