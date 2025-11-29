@@ -147,8 +147,9 @@
           <article class="project" data-folder="assets/project1">
             <div style="height:110px;border-radius:8px;overflow:hidden;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project1/Trainer_1.jpg" alt="Laparoscopic Trainer" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" />
-              <!-- additional gallery images for this project (hidden) -->
+              <!-- additional gallery sources for this project (hidden) - images and docs live inside the same container -->
               <img class="gallery-source" src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer - extra" style="display:none" />
+              <a class="gallery-source" href="assets/project1/Trainer_3.PDF" style="display:none">Trainer PDF</a>
             </div>
             <div>
               <h3>Laparoscopic Trainer</h3>
@@ -240,8 +241,9 @@
   <!-- Gallery modal (hidden by default) -->
   <div id="gallery-modal" aria-hidden="true" onclick="if(event.target.id==='gallery-modal'){closeGallery()}">
     <div class="gallery-card" role="dialog" aria-modal="true" aria-label="Project gallery">
-      <div style="position:relative;width:100%;display:flex;align-items:center;justify-content:center;">
-        <img id="gallery-img" class="gallery-img" src="" alt="" />
+      <div style="position:relative;width:100%;display:flex;align-items:center;justify-content:center;min-height:220px">
+        <img id="gallery-img" class="gallery-img" src="" alt="" style="display:none" />
+        <iframe id="gallery-iframe" style="display:none;width:100%;height:76vh;border-radius:8px;border:0;background:#fff"></iframe>
         <div class="gallery-nav">
           <button id="gallery-prev" onclick="galleryPrev(event)">‹</button>
           <button id="gallery-next" onclick="galleryNext(event)">›</button>
@@ -287,8 +289,9 @@
       Gallery.title = heading ? heading.textContent.trim() : '';
 
       function fallbackCollectAndOpen(startSrc){
-        const imgs = Array.from(article.querySelectorAll('img'))
-          .map(i => i.src)
+        // gather gallery-source elements: img.src or anchor.href
+        const sources = Array.from(article.querySelectorAll('.gallery-source'))
+          .map(el => el.tagName === 'IMG' ? el.src : (el.tagName === 'A' ? el.href : (el.getAttribute('data-src') || '')))
           .filter(src => src && !src.match(/^data:|^$/));
         const uniq = [...new Set(imgs)];
         if(uniq.length === 0) return;
@@ -308,8 +311,8 @@
           if(!r.ok) throw new Error('no manifest');
           return r.json();
         }).then(list => {
-          // build full paths and filter by image extensions
-          const imgs = (list||[]).filter(f => /\.(jpe?g|png|gif|webp|svg)$/i.test(f)).map(f => `${folder}/${f}`);
+          // build full paths and include images and PDFs
+          const imgs = (list||[]).filter(f => /\.(jpe?g|png|gif|webp|svg|pdf)$/i.test(f)).map(f => `${folder}/${f}`);
           if(!imgs || imgs.length === 0){
             // fallback to local collects
             const targetSrc = ev && ev.target && ev.target.tagName === 'IMG' ? ev.target.getAttribute('src') : null;
@@ -341,9 +344,21 @@
     function showGallery(){
       const el = document.getElementById('gallery-modal');
       const img = document.getElementById('gallery-img');
+      const iframe = document.getElementById('gallery-iframe');
       const cap = document.getElementById('gallery-caption');
-      img.src = Gallery.images[Gallery.index];
-      img.alt = Gallery.title || `Image ${Gallery.index+1}`;
+      const src = Gallery.images[Gallery.index];
+      const isPdf = /\.pdf$/i.test(src);
+      if(isPdf){
+        img.style.display = 'none';
+        iframe.style.display = 'block';
+        iframe.src = src;
+      } else {
+        iframe.style.display = 'none';
+        iframe.src = '';
+        img.style.display = 'block';
+        img.src = src;
+        img.alt = Gallery.title || `Image ${Gallery.index+1}`;
+      }
       cap.textContent = Gallery.title ? `${Gallery.title} — ${Gallery.index+1}/${Gallery.images.length}` : `${Gallery.index+1}/${Gallery.images.length}`;
       el.classList.add('active');
       el.setAttribute('aria-hidden','false');
@@ -353,8 +368,9 @@
       const el = document.getElementById('gallery-modal');
       el.classList.remove('active');
       el.setAttribute('aria-hidden','true');
-      // clear src so it frees memory on mobile
+      // clear srcs so they free memory on mobile
       document.getElementById('gallery-img').src = '';
+      document.getElementById('gallery-iframe').src = '';
     }
 
     function galleryNext(e){
