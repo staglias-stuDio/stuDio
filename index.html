@@ -67,6 +67,16 @@
     @media (max-width:980px){.grid{grid-template-columns:1fr}.about{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}}
     .meta{font-size:18px;color:var(--muted)}
     .link-row{display:flex;gap:12px;align-items:center}
+    /* Modal gallery styles */
+    #gallery-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:9999}
+    #gallery-modal.active{display:flex}
+    .gallery-card{max-width:1200px;width:92%;max-height:86vh;background:transparent;display:flex;flex-direction:column;align-items:center;gap:10px}
+    .gallery-img{max-width:100%;max-height:76vh;border-radius:10px;box-shadow:0 30px 80px rgba(2,6,10,0.6);background:#fff;object-fit:contain}
+    .gallery-caption{color:#fff;margin-top:8px;font-size:15px;opacity:0.95}
+    .gallery-controls{display:flex;gap:12px;align-items:center;margin-top:6px}
+    .gallery-controls button{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .gallery-nav{position:absolute;left:10px;right:10px;top:50%;display:flex;justify-content:space-between;pointer-events:none}
+    .gallery-nav button{pointer-events:auto;background:rgba(0,0,0,0.35);border:0;color:#fff;padding:12px;border-radius:6px;cursor:pointer}
   </style>
 </head>
 <body>
@@ -135,23 +145,22 @@
         <div class="portfolio-grid">
           <!-- Project 1 -->
           <article class="project">
-            <div style="height:110px;border-radius:8px;overflow:hidden">
+            <div style="height:110px;border-radius:8px;overflow:hidden;cursor:pointer" onclick="openGalleryFromArticle(this)">
               <img src="assets/project1/Trainer_1.jpg" alt="Laparoscopic Trainer" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" />
+              <!-- additional gallery images for this project (hidden) -->
+              <img class="gallery-source" src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer - extra" style="display:none" />
             </div>
             <div>
               <h3>Laparoscopic Trainer</h3>
               <p class="muted">Surgical training simulator — images and project documentation.</p>
             </div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
-              <a class="btn" href="assets/project1/Trainer_3.PDF" target="_blank">View Details</a>
-            </div>
+            <!-- buttons removed (gallery opens when clicking image) -->
           </article>
 
           <!-- Project 2 -->
           <article class="project">
             <!-- Try to load project2.jpg, otherwise show placeholder -->
-            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative">
+            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(this)">
               <img src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
             </div>
@@ -159,16 +168,13 @@
               <h3>Laparoscopic Trainer</h3>
               <p class="muted">Alternate views and photos from the Laparoscopic Trainer project.</p>
             </div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
-              <a class="btn" href="assets/project1/Trainer_3.PDF" target="_blank">View Details</a>
-            </div>
+            <!-- buttons removed (gallery opens when clicking image) -->
           </article>
 
           <!-- Project 3 -->
           <article class="project">
             <!-- Try to load project3.jpg, otherwise show placeholder -->
-            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative">
+            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(this)">
               <img src="assets/project3.jpg" alt="Project 3" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
             </div>
@@ -176,16 +182,13 @@
               <h3>Project Title</h3>
               <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
             </div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
-              <a class="btn" href="#">View Details</a>
-            </div>
+            <!-- buttons removed (gallery opens when clicking image) -->
           </article>
 
           <!-- Project 4 -->
           <article class="project">
             <!-- Try to load project4.jpg, otherwise show placeholder -->
-            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative">
+            <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(this)">
               <img src="assets/project4.jpg" alt="Project 4" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
             </div>
@@ -193,10 +196,7 @@
               <h3>Project Title</h3>
               <p class="muted">Short description of the project. Add materials, year, role, and results.</p>
             </div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button class="secondary" onclick="alert('Replace this project with your content')">Edit</button>
-              <a class="btn" href="#">View Details</a>
-            </div>
+            <!-- buttons removed (gallery opens when clicking image) -->
           </article>
 
         </div>
@@ -237,6 +237,23 @@
     </div>
   </footer>
 
+  <!-- Gallery modal (hidden by default) -->
+  <div id="gallery-modal" aria-hidden="true" onclick="if(event.target.id==='gallery-modal'){closeGallery()}">
+    <div class="gallery-card" role="dialog" aria-modal="true" aria-label="Project gallery">
+      <div style="position:relative;width:100%;display:flex;align-items:center;justify-content:center;">
+        <img id="gallery-img" class="gallery-img" src="" alt="" />
+        <div class="gallery-nav">
+          <button id="gallery-prev" onclick="galleryPrev(event)">‹</button>
+          <button id="gallery-next" onclick="galleryNext(event)">›</button>
+        </div>
+      </div>
+      <div class="gallery-caption" id="gallery-caption"></div>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button onclick="closeGallery()">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -256,6 +273,71 @@
       document.getElementById('subject').value='';
       document.getElementById('message').value='';
     }
+
+    /* ---- Gallery modal logic ---- */
+    const Gallery = { images: [], index: 0, title: '' };
+
+    function openGalleryFromArticle(node){
+      // if the clicked target is the inner container, find the containing article
+      const article = node.closest('.project');
+      if(!article) return;
+      // collect all image sources inside this article (including hidden gallery-source images)
+      const imgs = Array.from(article.querySelectorAll('img'))
+        .map(i => i.src)
+        .filter(src => src && !src.match(/^data:|^$/));
+      // remove duplicates
+      const uniq = [...new Set(imgs)];
+      if(uniq.length === 0) return; // nothing to show
+
+      Gallery.images = uniq;
+      Gallery.index = 0; // start at first image
+      // try to set the gallery title from article h3
+      const heading = article.querySelector('h3');
+      Gallery.title = heading ? heading.textContent.trim() : '';
+      showGallery();
+    }
+
+    function showGallery(){
+      const el = document.getElementById('gallery-modal');
+      const img = document.getElementById('gallery-img');
+      const cap = document.getElementById('gallery-caption');
+      img.src = Gallery.images[Gallery.index];
+      img.alt = Gallery.title || `Image ${Gallery.index+1}`;
+      cap.textContent = Gallery.title ? `${Gallery.title} — ${Gallery.index+1}/${Gallery.images.length}` : `${Gallery.index+1}/${Gallery.images.length}`;
+      el.classList.add('active');
+      el.setAttribute('aria-hidden','false');
+    }
+
+    function closeGallery(){
+      const el = document.getElementById('gallery-modal');
+      el.classList.remove('active');
+      el.setAttribute('aria-hidden','true');
+      // clear src so it frees memory on mobile
+      document.getElementById('gallery-img').src = '';
+    }
+
+    function galleryNext(e){
+      e && e.stopPropagation();
+      if(Gallery.images.length===0) return;
+      Gallery.index = (Gallery.index + 1) % Gallery.images.length;
+      showGallery();
+    }
+
+    function galleryPrev(e){
+      e && e.stopPropagation();
+      if(Gallery.images.length===0) return;
+      Gallery.index = (Gallery.index - 1 + Gallery.images.length) % Gallery.images.length;
+      showGallery();
+    }
+
+    // keyboard support
+    document.addEventListener('keydown', (ev) => {
+      const modal = document.getElementById('gallery-modal');
+      if(!modal || modal.getAttribute('aria-hidden') === 'true') return;
+      if(ev.key === 'ArrowRight') galleryNext();
+      if(ev.key === 'ArrowLeft') galleryPrev();
+      if(ev.key === 'Escape') closeGallery();
+    });
   </script>
 </body>
 </html>
