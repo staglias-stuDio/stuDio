@@ -59,6 +59,9 @@
     .placeholder{height:110px;border-radius:8px;background:repeating-linear-gradient(135deg, rgba(0,0,0,0.02) 0 6px, rgba(0,0,0,0.01) 6px 12px);display:flex;align-items:center;justify-content:center;color:var(--muted)}
     .project h3{margin:10px 0 6px;font-size:16px;color:var(--heading-3)}
     .project p{margin:0;color:var(--muted);font-size:14px}
+    /* thumbnail badge showing item counts */
+    .thumb-badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);color:#fff;padding:6px 8px;border-radius:999px;font-size:12px;display:inline-flex;align-items:center;gap:8px}
+    .thumb-badge svg{width:14px;height:14px;opacity:0.95}
     .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
     form{display:flex;flex-direction:column;gap:12px}
     input,textarea{background:var(--bg);border:1px solid rgba(0,0,0,0.08);padding:12px;border-radius:10px;color:var(--text);font-size:14px}
@@ -145,11 +148,12 @@
         <div class="portfolio-grid">
           <!-- Project 1 -->
           <article class="project" data-folder="assets/project1">
-            <div style="height:110px;border-radius:8px;overflow:hidden;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
+            <div style="height:110px;border-radius:8px;overflow:hidden;cursor:pointer;position:relative" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project1/Trainer_1.jpg" alt="Laparoscopic Trainer" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" />
               <!-- additional gallery sources for this project (hidden) - images and docs live inside the same container -->
               <img class="gallery-source" src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer - extra" style="display:none" />
               <a class="gallery-source" href="assets/project1/Trainer_3.PDF" style="display:none">Trainer PDF</a>
+              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Laparoscopic Trainer</h3>
@@ -164,6 +168,7 @@
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
+              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Laparoscopic Trainer</h3>
@@ -178,6 +183,7 @@
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project3.jpg" alt="Project 3" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
+              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Project Title</h3>
@@ -192,6 +198,7 @@
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project4.jpg" alt="Project 4" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
+              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Project Title</h3>
@@ -395,6 +402,63 @@
       if(ev.key === 'ArrowLeft') galleryPrev();
       if(ev.key === 'Escape') closeGallery();
     });
+
+    /* ---- Thumbnail badge population ---- */
+    function pluralize(count, one, many){
+      return count === 1 ? `1 ${one}` : `${count} ${many}`;
+    }
+
+    async function computeCountsForArticle(article){
+      const folder = article.dataset.folder;
+      let items = [];
+      if(folder){
+        try {
+          const res = await fetch(`${folder}/index.json`);
+          if(res.ok){
+            const list = await res.json();
+            items = (list||[]).map(f => `${folder}/${f}`);
+          }
+        } catch(e){
+          // ignore and fallback
+        }
+      }
+      if(items.length === 0){
+        // fallback: collect gallery-source within this article (images and anchors)
+        items = Array.from(article.querySelectorAll('.gallery-source'))
+          .map(el => el.tagName === 'IMG' ? el.src : (el.tagName === 'A' ? el.href : el.getAttribute('data-src')))
+          .filter(Boolean);
+      }
+      // normalize and count by type
+      const counts = { images: 0, pdfs: 0, others: 0 };
+      items.forEach(src => {
+        if(/\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i.test(src)) counts.images++;
+        else if(/\.pdf(\?.*)?$/i.test(src)) counts.pdfs++;
+        else counts.others++;
+      });
+      return counts;
+    }
+
+    async function updateThumbBadges(){
+      const articles = Array.from(document.querySelectorAll('.project'));
+      await Promise.all(articles.map(async (article)=>{
+        const badge = article.querySelector('.thumb-badge');
+        if(!badge) return;
+        const counts = await computeCountsForArticle(article);
+        const parts = [];
+        if(counts.images) parts.push(pluralize(counts.images, 'imagen', 'imágenes'));
+        if(counts.pdfs) parts.push(pluralize(counts.pdfs, 'PDF', 'PDF')); // keep PDF label
+        if(counts.others) parts.push(pluralize(counts.others, 'archivo', 'archivos'));
+        if(parts.length === 0){
+          badge.style.display = 'none';
+        } else {
+          badge.style.display = 'inline-flex';
+          badge.textContent = parts.join(' + ');
+        }
+      }));
+    }
+
+    // run once DOM is ready
+    document.addEventListener('DOMContentLoaded', () => updateThumbBadges());
   </script>
 </body>
 </html>
