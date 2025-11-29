@@ -445,9 +445,10 @@
         if(!badge) return;
         const counts = await computeCountsForArticle(article);
         const parts = [];
-        if(counts.images) parts.push(pluralize(counts.images, 'imagen', 'imágenes'));
-        if(counts.pdfs) parts.push(pluralize(counts.pdfs, 'PDF', 'PDF')); // keep PDF label
-        if(counts.others) parts.push(pluralize(counts.others, 'archivo', 'archivos'));
+        // compact format: images as a number only (no "imagen(es)"), PDFs labeled, others keep "archivos"
+        if(counts.images) parts.push(String(counts.images));
+        if(counts.pdfs) parts.push(`${counts.pdfs} PDF`);
+        if(counts.others) parts.push(`${counts.others} archivos`);
         if(parts.length === 0){
           badge.style.display = 'none';
         } else {
