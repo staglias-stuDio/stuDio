@@ -1,1 +1,10 @@
-<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="800" height="400" fill="#f6f7f8"/><image xlink:href="../logo-user.jpg" x="325" y="100" width="150" height="150" style="clip-path: circle(75px at 75px 75px);" preserveAspectRatio="xMidYMid meet"/><text x="400" y="290" font-family="Arial, sans-serif" font-size="20" fill="#6b7280" text-anchor="middle">Laparoscopic Trainer</text></svg>
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect width="800" height="400" fill="#f6f7f8"/>
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="400" cy="150" r="75"/>
+    </clipPath>
+  </defs>
+  <image xlink:href="logo-user.jpg" x="325" y="75" width="150" height="150" clip-path="url(#circleClip)" preserveAspectRatio="xMidYMid slice"/>
+  <text x="400" y="290" font-family="Arial, sans-serif" font-size="20" fill="#6b7280" text-anchor="middle">Laparoscopic Trainer</text>
+</svg>
