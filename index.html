@@ -54,7 +54,7 @@
     .section-title h2{margin:0;font-size:22px;color:var(--heading-2)}
     .muted{color:var(--muted)}
     .about{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start}
-    #about{background:linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)), url('assets/Fondo_2.jpg') center center/cover no-repeat;position:relative}
+    #about{position:relative}
     #about .section-title h2,#about .section-title .muted{color:var(--heading-1);font-weight:600}
     #about p,#about ul li{color:var(--text);font-weight:500}
     .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
@@ -63,9 +63,6 @@
     .placeholder{height:110px;border-radius:8px;background:repeating-linear-gradient(135deg, rgba(0,0,0,0.02) 0 6px, rgba(0,0,0,0.01) 6px 12px);display:flex;align-items:center;justify-content:center;color:var(--muted)}
     .project h3{margin:10px 0 6px;font-size:16px;color:var(--heading-3)}
     .project p{margin:0;color:var(--muted);font-size:14px}
-    /* thumbnail badge showing item counts */
-    .thumb-badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);color:#fff;padding:6px 8px;border-radius:999px;font-size:12px;display:inline-flex;align-items:center;gap:8px}
-    .thumb-badge svg{width:14px;height:14px;opacity:0.95}
     .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
     form{display:flex;flex-direction:column;gap:12px}
     input,textarea{background:var(--bg);border:1px solid rgba(0,0,0,0.08);padding:12px;border-radius:10px;color:var(--text);font-size:14px}
@@ -158,7 +155,6 @@
               <!-- additional gallery sources for this project (hidden) - images and docs live inside the same container -->
               <img class="gallery-source" src="assets/project1/Trainer_2.jpg" alt="Laparoscopic Trainer - extra" style="display:none" />
               <a class="gallery-source" href="assets/project1/Trainer_3.PDF" style="display:none">Trainer PDF</a>
-              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Laparoscopic Trainer</h3>
@@ -171,9 +167,8 @@
           <article class="project" data-folder="assets/project2">
             <!-- Load all images from assets/project2 (manifest) -->
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
-              <img src="assets/project2/cover.svg" alt="Project" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-              <div class="placeholder" style="display:none">Project image (drag & replace)</div>
-              <div class="thumb-badge" aria-hidden="true"></div>
+              <img src="assets/project2/cover.svg" alt="Project 2" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="placeholder" style="display:none">Project cover (drag & replace)</div>
             </div>
             <div>
               <h3>Project</h3>
@@ -188,7 +183,6 @@
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project3.jpg" alt="Project 3" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
-              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Project Title</h3>
@@ -203,7 +197,6 @@
             <div style="height:110px;border-radius:8px;overflow:hidden;position:relative;cursor:pointer" onclick="openGalleryFromArticle(event,this)">
               <img src="assets/project4.jpg" alt="Project 4" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
               <div class="placeholder" style="display:none">Project image (drag & replace)</div>
-              <div class="thumb-badge" aria-hidden="true"></div>
             </div>
             <div>
               <h3>Project Title</h3>
@@ -443,28 +436,8 @@
       return counts;
     }
 
-    async function updateThumbBadges(){
-      const articles = Array.from(document.querySelectorAll('.project'));
-      await Promise.all(articles.map(async (article)=>{
-        const badge = article.querySelector('.thumb-badge');
-        if(!badge) return;
-        const counts = await computeCountsForArticle(article);
-        const parts = [];
-        // compact format: images as a number only (no "imagen(es)"), PDFs labeled, others keep "archivos"
-        if(counts.images) parts.push(String(counts.images));
-        if(counts.pdfs) parts.push(`${counts.pdfs} PDF`);
-        if(counts.others) parts.push(`${counts.others} archivos`);
-        if(parts.length === 0){
-          badge.style.display = 'none';
-        } else {
-          badge.style.display = 'inline-flex';
-          badge.textContent = parts.join(' + ');
-        }
-      }));
-    }
-
     // run once DOM is ready
-    document.addEventListener('DOMContentLoaded', () => updateThumbBadges());
+    document.addEventListener('DOMContentLoaded', () => {});
   </script>
 </body>
 </html>
