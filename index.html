@@ -298,7 +298,7 @@
         const sources = Array.from(article.querySelectorAll('.gallery-source'))
           .map(el => el.tagName === 'IMG' ? el.src : (el.tagName === 'A' ? el.href : (el.getAttribute('data-src') || '')))
           .filter(src => src && !src.match(/^data:|^$/));
-        const uniq = [...new Set(imgs)];
+        const uniq = [...new Set(sources)];
         if(uniq.length === 0) return;
         Gallery.images = uniq;
         if(startSrc){
