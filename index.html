@@ -226,7 +226,7 @@
                 <button class="secondary" type="button" onclick="clearForm()">Clear</button>
               </div>
             </form>
-            <p class="muted" style="margin-top:12px">Or write directly to: <a id="mailto" href="mailto:hola@studio.com?subject=Contact%20from%20stuDIo">hola@studio.com</a></p>
+            <p class="muted" style="margin-top:12px">Or write directly to: <a id="mailto" href="mailto:staglias@gmail.com?subject=Contact%20from%20stuDIo">staglias@gmail.com</a></p>
           </div>
 
           <!-- contact info card removed -->
@@ -273,7 +273,7 @@
       const subject = document.getElementById('subject').value.trim() || 'Contact from stuDIo';
       const message = document.getElementById('message').value.trim();
       const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      const mailto = `mailto:hola@studio.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      const mailto = `mailto:staglias@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
       window.location.href = mailto;
     }
     function clearForm(){
