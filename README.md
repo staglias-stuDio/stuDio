@@ -1,2 +1,3 @@
 # stuDio
-Industrial Design
+Industrial Design -
+Sebastian Taglialavore Suchy
