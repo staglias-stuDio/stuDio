@@ -272,9 +272,9 @@
         if(startSrc){
           const startName = startSrc.split('/').pop();
           const idx = uniq.findIndex(s => s.split('/').pop() === startName);
-          Gallery.index = idx !== -1 ? idx : 0;
+          Gallery.index = idx !== -1 ? idx : 1;
         } else {
-          Gallery.index = 0;
+          Gallery.index = 1;
         }
         showGallery();
       }
@@ -298,9 +298,9 @@
           if(clickedSrc){
             const clickedName = clickedSrc.split('/').pop();
             const idx = imgs.findIndex(s => s.split('/').pop() === clickedName);
-            Gallery.index = idx !== -1 ? idx : 0;
+            Gallery.index = idx !== -1 ? idx : 1;
           } else {
-            Gallery.index = 0;
+            Gallery.index = 1;
           }
           showGallery();
         }).catch(()=>{
