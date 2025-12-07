@@ -57,10 +57,8 @@
     #about{position:relative;background:linear-gradient(135deg, #e0e1e3 0%, #d8d9db 100%);padding:80px 20px}
     #about .section-title h2,#about .section-title .muted{color:var(--heading-1);font-weight:600}
     #about p,#about ul li{color:var(--text);font-weight:500}
-    #portfolio{position:relative}
-    #portfolio .container{display:flex;gap:40px;align-items:stretch}
-    #portfolio .portfolio-content{flex:1}
-    #portfolio .vertical-title{writing-mode:vertical-rl;text-orientation:mixed;font-size:7.5vw;font-weight:800;color:rgba(0,0,0,0.08);letter-spacing:0.05em;line-height:1;white-space:nowrap;user-select:none;margin:0}
+    #portfolio{position:relative;margin-top:-40px}
+    #portfolio .horizontal-title{font-size:7.5vw;font-weight:800;color:rgba(0,0,0,0.08);letter-spacing:0.05em;line-height:1;white-space:nowrap;user-select:none;margin:0 0 40px 0;text-align:left}
     .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
     .project{min-height:180px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));padding:16px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .25s,box-shadow .25s}
     .project:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,10,0.6)}
@@ -147,8 +145,8 @@
 
     <section id="portfolio">
       <div class="container">
-        <div class="portfolio-content">
-          <div class="portfolio-grid">
+        <h1 class="horizontal-title">PORTFOLIO</h1>
+        <div class="portfolio-grid">
           <!-- Concept -->
           <article class="project" data-folder="assets/Concept" onclick="openGalleryFromArticle(event,this)" style="cursor:pointer">
             <h3>Concept</h3>
@@ -173,9 +171,7 @@
             <p class="muted">Final renders and visualizations.</p>
           </article>
 
-          </div>
         </div>
-        <div class="vertical-title">PORTFOLIO</div>
       </div>
     </section>
 
